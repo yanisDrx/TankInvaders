@@ -1,10 +1,10 @@
 from tkinter import *
-from TkinterClasses.Base_Canvas import *
-from TkinterClasses.Buttons import *
-from TkinterClasses.Title_Label import *
-from GameClass.Soldat import *
-from GameClass.Tanks import *
-from GameClass.Entity import *
+from tkinterClass.base_canvas import *
+from tkinterClass.buttons import *
+from tkinterClass.title_label import *
+from gameClass.soldat import *
+from gameClass.tanks import *
+from gameClass.entity import *
 
 
 class TankInvaders(Tk):

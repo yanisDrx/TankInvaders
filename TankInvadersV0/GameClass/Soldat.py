@@ -1,5 +1,5 @@
-from GameClass.Entity import Entities
 from tkinter import *
+from gameclass.entity import Entities
 
 
 class Soldat(Entities):

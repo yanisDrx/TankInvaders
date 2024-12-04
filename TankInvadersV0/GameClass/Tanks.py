@@ -1,5 +1,5 @@
 from tkinter import *
-from GameClass.Entity import Entities
+from gameClass.entity import Entities
 
 
 class Tank(Entities):
