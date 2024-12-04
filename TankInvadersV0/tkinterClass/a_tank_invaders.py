@@ -41,8 +41,10 @@ class TankInvaders(Tk):
             "Space": False
             }
         
-        #liste d'ennemis (quand append = 0 -> fin du jeu)
+        #liste d'ennemis (quand len = 0 -> fin du jeu)
         self.ennemies = []
+        
+        self.ennemies_coords = []
      
         
     def Jouer(self):
@@ -58,9 +60,8 @@ class TankInvaders(Tk):
             # ajoute un premier soldat
             self.soldat = Soldat(self.game_canvas, pos=[400,725], img="TankInvadersV0/Images/soldier_player.png", hp=3, size=0, proj=0, fproj=0)
             
-            # ajoute un premier tank
-            self.tank = Tank(self.game_canvas, pos=[759,25], img="TankInvadersV0/Images/tank.png", hp = 1, size=0, proj=0, fproj=0)
-        
+            # ajoute les tank
+            self.add_ennemi()
             
             self.init_gameplay()
                     
@@ -68,6 +69,23 @@ class TankInvaders(Tk):
             print(self.is_playing)
         pass     
     
+    def add_ennemi(self):
+        # Position initiale (en dehors de l'écran)
+        self.start_x = 759
+        self.start_y = 25
+        self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, size=(50, 50), proj=None, fproj=None,)
+        
+        self.ennemies.append(self.ennemi)
+        
+        self.ennemies_coords.append(self.ennemi.pos)
+        
+        self.game_canvas.update()
+
+        
+        self.ennemi.animate()
+        
+        if len(self.ennemies) < 16: 
+            self.game_canvas.after(1000, self.add_ennemi)
              
     def init_gameplay(self):
           
@@ -91,8 +109,11 @@ class TankInvaders(Tk):
         if self.pressed_keys["Right"] and not self.pressed_keys["Left"]:
             self.soldat.move(+10)
             
-        # Déplacer le tank horizontalement
-        self.tank.move(3,75)
+        # # Déplacer les tanks horizontalement
+        for ennemi in self.ennemies:
+            ennemi.move()
+            
+        print(self.ennemies_coords)
 
         # Relance la boucle après 16ms (~60 FPS)
         self.after(16, self.update)
