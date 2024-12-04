@@ -14,5 +14,6 @@ class Entities:
         self.fproj = fproj  #La fréquence de tir des projectiles 
         
     def show(self):
+        
         if self.image_id is None:
             self.image_id = self.canvas.create_image(self.pos[0], self.pos[1], image=self.img)
