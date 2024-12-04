@@ -4,8 +4,8 @@ from tkinter import *
 
 class Soldat(Entities):
     
-    def __init__(self, canvas, pos, img, hp):
-        super().__init__(canvas, pos, img, hp)
+    def __init__(self, canvas, pos, img, hp, size, proj, fproj):
+        super().__init__(canvas, pos, img, hp, size, proj, fproj)
         
         self.show()
 

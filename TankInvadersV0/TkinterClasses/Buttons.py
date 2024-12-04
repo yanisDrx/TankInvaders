@@ -1,8 +1,8 @@
 from tkinter import *
 
 
-class Buttons(Button):
-    """Classe des boutons principaux"""
+class Buttons(Button): #Classe des boutons principaux
+    
     def __init__(self,parent,text,command,xaxis,yaxis):
         super().__init__(parent)
         

@@ -52,7 +52,7 @@ class TankInvaders(Tk):
             self.game_canvas = Base_Canvas(self, "TankInvadersV0/Images/champ_bataille.png")
             self.home_canvas.destroy()
             
-            self.soldat = Soldat(canvas = self.game_canvas, pos=[400,725], img="TankInvadersV0/Images/soldier_player.png", hp=3)
+            self.soldat = Soldat(canvas = self.game_canvas, pos=[400,725], img="TankInvadersV0/Images/soldier_player.png", hp=3, size=0, proj=0, fproj=0)
             
             self.init_gameplay()
                     
@@ -70,7 +70,7 @@ class TankInvaders(Tk):
         self.update()
         
         # ajoute un premier tank
-        self.tank = Tank(self.game_canvas, pos=(725,100), img="TankInvadersV0/Images/tank.png", hp = 1)
+        self.tank = Tank(self.game_canvas, pos=(725,100), img="TankInvadersV0/Images/tank.png", hp = 1, size=0, proj=0, fproj=0)
         
             
     def keyBind(self):

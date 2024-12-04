@@ -1,7 +1,8 @@
 from tkinter import *
 
 
-class Title_Text(Text):
+class Title_Text(Text): #Classe des labels principaux
+    
     def __init__(self, parent, canvas, text, colour, xaxis, yaxis):
         super().__init__(parent)
         
