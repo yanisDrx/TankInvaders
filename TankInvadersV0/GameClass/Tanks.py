@@ -7,13 +7,14 @@ class Tank(Entities):
     def __init__(self, canvas, pos, img, hp, size, proj, fproj):
         super().__init__(canvas, pos, img, hp, size, proj, fproj)
         
-        self.show()
+        self.direction = 1
+        self.step_x = 2
+        self.step_y = 85
         
-    def move(self, dx, dy):
         
+    def move(self):
+        print(self.pos)
         canvas_width = self.canvas.winfo_width()
-        self.step_x = dx
-        self.step_y = dy
 
         if self.pos[0] >= canvas_width - 40:
             self.direction = -1
@@ -23,6 +24,10 @@ class Tank(Entities):
             self.pos = (self.pos[0], self.pos[1] + self.step_y)
 
         self.pos = (self.pos[0] + self.direction * self.step_x, self.pos[1])
-        print(self.pos)
         self.canvas.coords(self.image_id, self.pos[0], self.pos[1])
                     
+    def animate(self):
+        
+        self.show()
+        self.move()
+        self.canvas.after(50, self.animate)
