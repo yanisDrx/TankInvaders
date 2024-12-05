@@ -3,9 +3,8 @@ from gameClass.entity import Entities
 
 
 class Projectile (Entities):
-    def __init__(self, canvas, pos, img, hp, size, proj, fproj, speed):
+    def __init__(self, canvas, pos, img, size, speed):
         super().__init__(self, canvas, pos, img, hp=1, size=size, proj=None, fproj=None)
-        
         self.speed = speed
         self.image_id = self.canvas.create_image(self.pos[0], self.pos[1], image = self.img)
         
