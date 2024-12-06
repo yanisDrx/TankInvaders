@@ -30,7 +30,7 @@ class Soldat(Entities):
             self.timer = self.fproj
         
     def update_timer(self):
-        if self.timer > 0:
-            self.timer -= delta_prime
+        # if self.timer > 0:
+            # self.timer -= delta_prime
             
         pass
