@@ -58,7 +58,7 @@ class TankInvaders(Tk):
             self.home_canvas.destroy()
             
             # ajoute un premier soldat
-            self.soldat = Soldat(self.game_canvas, pos=[400,725], img="TankInvadersV0/Images/soldier_player.png", hp=3, size=0, proj=0, fproj=0)
+            self.soldat = Soldat(self.game_canvas, pos=[400,725], img="TankInvadersV0/Images/soldier_player.png", hp=3, size=0, fproj=0)
             
             # ajoute les tank
             self.add_ennemi()
@@ -73,7 +73,7 @@ class TankInvaders(Tk):
         # Position initiale (en dehors de l'écran)
         self.start_x = 759
         self.start_y = 25
-        self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, size=(50, 50), proj=None, fproj=None,)
+        self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, size=(50, 50), fproj=0,)
         
         self.ennemies.append(self.ennemi)
         

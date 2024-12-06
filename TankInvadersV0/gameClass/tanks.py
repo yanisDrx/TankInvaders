@@ -4,8 +4,8 @@ from gameClass.entity import Entities
 
 class Tank(Entities):
     
-    def __init__(self, canvas, pos, img, hp, size, proj, fproj):
-        super().__init__(canvas, pos, img, hp, size, proj, fproj)
+    def __init__(self, canvas, pos, img, hp, size, fproj):
+        super().__init__(canvas, pos, img, hp, size, fproj)
         
         self.direction = 1
         self.step_x = 2

@@ -5,7 +5,7 @@ from gameClass.entity import Entities
 class Soldat(Entities):
     
     def __init__(self, canvas, pos, img, hp, size, fproj):
-        super().__init__(canvas, pos, img, hp, size, proj=True, fproj=fproj)
+        super().__init__(canvas, pos, img, hp, size, fproj=None)
         self.timer = 0  #Mise en place d'un cooldown 
         self.show()
 
