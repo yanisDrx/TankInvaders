@@ -16,3 +16,7 @@ class Entities:
         
         if self.image_id is None:
             self.image_id = self.canvas.create_image(self.pos[0], self.pos[1], image=self.img)
+    
+    def tirs(self):
+        #canvas.after(self.fproj * 50, self.tirs)
+        pass
