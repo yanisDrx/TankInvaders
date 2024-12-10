@@ -5,6 +5,8 @@ from tkinterClass.title_label import *
 from gameClass.soldat import *
 from gameClass.tanks import *
 from gameClass.entity import *
+from gameClass.protections import *
+from gameClass.mur import *
 
 
 class TankInvaders(Tk):
@@ -63,6 +65,8 @@ class TankInvaders(Tk):
             # ajoute les tanks
             self.add_ennemi()
             
+            self.protection = Protections(self.game_canvas, pos=(150, 400), img="TankInvadersV0/Images/protections.png", hp=1)
+
             self.init_gameplay()
                     
         else:

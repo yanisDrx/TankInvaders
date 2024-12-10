@@ -3,7 +3,7 @@ from gameClass.protections import Protections
 class Wall:
     def __init__(self, canvas, x, y):
         self.canvas = canvas
-        self.proctections = []
+        self.protections = []
         self.x = x
         self.y = y
         self.create()
