@@ -3,11 +3,11 @@ from tkinter import *
 
 class Title_Text(Text): #Classe des labels principaux
     
-    def __init__(self, parent, canvas, text, colour, xaxis, yaxis):
+    def __init__(self, parent, canvas, text, font, colour, xaxis, yaxis):
         super().__init__(parent)
         
         self.title_style = {
-            "font": ("Arial", 50, "bold"),
+            "font": ("Arial", font, "bold"),
             "fill": colour,  # Couleur du texte
         }
         
