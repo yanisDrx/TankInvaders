@@ -12,9 +12,13 @@ class Protections (Entities):
             self.hp -= 1
             if self.hp <= 0:
                 self.delete()
+<<<<<<< HEAD
                 
             
     def delete(self):
+=======
+    def delete(self):       
+>>>>>>> e22edc17e42d44f0e37dcd8243b3f350a95bc0be
         if self.image_id is not None:   #Permet de vérifier si l'objet existe  
             self.canvas.delete(self.protection)
             # self.protection = None  #Empêche une double suppresion
@@ -25,4 +29,4 @@ class Protections (Entities):
         if bbox is not None:
             return bbox
         else:
-            return None #Si jamais l'objet n'existe pas 
+            return None #Si jamais l'objet n'existe pas
