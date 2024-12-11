@@ -34,4 +34,3 @@ class Soldat(Entities):
         bullet_y = self.pos[1] - (self.size[1] // 2)  # Position y au-dessus du soldat
         bullet = Projectile(canvas=self.canvas,pos=(bullet_x, bullet_y), img="TankInvadersV0/Images/soldier_player.png", size=(5, 10),speed=-5) #Création du projectile
         self.bullets.append(bullet) #Ajoute le projectile à la liste des projectiles
-          
