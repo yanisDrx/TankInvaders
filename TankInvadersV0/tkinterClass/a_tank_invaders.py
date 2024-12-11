@@ -152,6 +152,10 @@ class TankInvaders(Tk):
         for ennemi in self.ennemies:
             ennemi.move()
 
+    def checkAllCOlisions(self):
+        ## on fais les boucles sur toutes les entitées et verivfier les collsiiosn 
+        ## ezt on applique les collisisons  
+        pass
     def update(self):
         
         # Déplacer le soldat horizontalement
@@ -159,7 +163,7 @@ class TankInvaders(Tk):
         # # Déplacer les tanks horizontalement
         self.moveALLEnnemies()
 
-        
+        self.checkAllCOlisions()
             
         # print(self.ennemies_coords)
 
