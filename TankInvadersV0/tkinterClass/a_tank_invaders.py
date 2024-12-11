@@ -113,7 +113,6 @@ class TankInvaders(Tk):
         self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3)
         
         
-        self.ennemi.animate()
         self.game_canvas.update()
 
         self.ennemi.animate()
