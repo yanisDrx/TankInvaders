@@ -73,13 +73,20 @@ class TankInvaders(Tk):
             
             # ajoute 3 murs
             self.murs = []
+            self.posx_murs = []
+
+            # générer la position du premier mur
+            self.posx1 = random.randint(20, 640)
+            self.posx_murs.append(self.posx1)
             
-            self.posx_mur1 = random.choice([10,10])
+            # générer la deuxième position avec la condition de ne pas se superposer
+            self.posx2 = random.randint(20, 640)
+            while abs(self.posx2 - self.posx_murs[0]) < 220:
+                self.posx2 = random.randint(20, 640)
+            self.posx_murs.append(self.posx2)
             
-            self.nb_murs = random.choice([500,750])
-            print(self.nb_murs)
-            for i in range (0,self.nb_murs,250):
-                self.murs.append(Wall(self.game_canvas, (i+100), 500, img="TankInvadersV0/Images/wall.png", hp=12))
+            for i in range (2):
+                self.murs.append(Wall(self.game_canvas,self.posx_murs[i], 500, img="TankInvadersV0/Images/wall.png", hp=12))
                 print(i)
             
             # ajoute les textes fixes de scores et vies
@@ -123,7 +130,7 @@ class TankInvaders(Tk):
         self.update_score()
         
         #limite la boucle à 16 ennemis max
-        if len(self.ennemies) < 16: 
+        if len(self.ennemies) < 8: 
             self.game_canvas.after(1000, self.add_ennemi)
             print(len(self.ennemies))
         
@@ -142,7 +149,11 @@ class TankInvaders(Tk):
         # sépare les touches pressées et relachées afin d'avoir un mouvement final du soldat plus fluide
         self.bind("<KeyPress>", self.on_key_press)
         self.bind("<KeyRelease>", self.on_key_release)  
-        
+        self.bind("<space>", self.spaceBar)
+     
+     
+    def spaceBar(self, event=None):
+        self.soldat.shoot()   
 
     def checkAllCollisions(self):
         # on fait les boucles sur toutes les entitées et on vérifie les collisions 
@@ -157,9 +168,9 @@ class TankInvaders(Tk):
             self.soldat.move(-10)
         if self.pressed_keys["Right"] and not self.pressed_keys["Left"]:
             self.soldat.move(+10)
-        if self.pressed_keys["space"]:
-            self.soldat.shoot()
-            print(self.pressed_keys["space"])
+        # if self.pressed_keys["space"]:
+        #     self.soldat.shoot()
+        #     print(self.pressed_keys["space"])
         
         
         # self.checkAllCOlisions()
@@ -171,20 +182,24 @@ class TankInvaders(Tk):
         # Relance la boucle après 16ms (~60 FPS)
         self.after(16, self.update)
 
+
     def update_vies(self):
         
         # mets à jour les vies du joueur en temps réél
         self.game_canvas.itemconfig(self.vies_txt, text=f"{self.soldat.hp}")
+  
     
     def update_score(self):
         # pareil pour le score
         self.game_canvas.itemconfig(self.score_txt, text=f"{self.score}")
+  
     
     def on_key_press(self, event):
          
         # mets à jour l'état à true lorsque la touche est pressée
         if event.keysym in self.pressed_keys:
             self.pressed_keys[event.keysym] = True
+
 
     def on_key_release(self, event):
         
