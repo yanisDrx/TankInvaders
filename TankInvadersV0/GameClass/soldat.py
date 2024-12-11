@@ -3,11 +3,12 @@ class Soldat(Entities):
 
     # def __init__(self, canvas, pos, img, hp, size, fproj):
     #     super().__init__(canvas, pos, img, hp, size, fproj=fproj)
-    def __init__(self, canvas, pos, img, hp, size):
-        super().__init__(canvas, pos, img, hp, size)
-        self.timer = 0  #Mise en place d'un cooldown 
-        # self.show()
+    def __init__(self, canvas, pos, img, hp):
+        super().__init__(canvas, pos, img, hp)
+        # self.timer = 0  #Mise en place d'un cooldown 
+        self.show()
         self.bullets = []
+        self.dx = 30
 
     # def move(self, dx): #ATTENTION CHANGER NOM DE VARIABLE CAR PAS UTILE AU MOVE MAIS A L'ENCADREMENT 
     #     self.pos[0] = self.pos[0] + dx 

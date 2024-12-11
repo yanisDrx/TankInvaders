@@ -3,13 +3,12 @@ from tkinter import *
 
 class Entities:
     
-    def __init__(self, canvas, pos, img, hp, size):
+    def __init__(self, canvas, pos, img, hp):
         self.canvas = canvas
         self.pos = pos  #Position sous forme de coordonnées avec x,y
         self.img = PhotoImage(file = img)   #Image associée à un objet
-        self.image_id = None
+        self.image_id = None 
         self.hp = hp    #Les points de vie associés à l'objet
-        self.size = size    #Taille de l'objet (x=largeur et y=hauteur)
         
     def show(self):
         if self.image_id is None:
