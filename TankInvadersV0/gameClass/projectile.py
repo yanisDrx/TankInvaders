@@ -6,9 +6,9 @@ class Projectile (Entities):
     def __init__(self, canvas, pos, img, size, speed):
         super().__init__(canvas, pos, img, hp=1, size=size)
         self.speed = speed  #Vitesse verticale (négative pour monter et positive pour descendre)
-        self.tir = self.image_id
-        self.tir = self.canvas.create_image(self.pos[0], self.pos[1], image = self.img)
+        self.tir = self.canvas.create_image(self.pos[0], self.pos[1], image = img)
         self.bounding_box = self.get_coords()
+        self.show()
 
     def get_coords(self):
         if self.tir is None:

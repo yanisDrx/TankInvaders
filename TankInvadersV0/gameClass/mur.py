@@ -1,7 +1,7 @@
 from gameClass.protections import Protections
 
 class Wall:
-    def __init__(self, canvas, x, y, img, hp, rows=4, cols=4, block_size=36):
+    def __init__(self, canvas, x, y, img, hp, rows=3, cols=4, block_size=36):
         self.canvas = canvas
         self.x = x  #Coordonnée x de départ du mur 
         self.y = y  #Coordonnée y de départ du mur
@@ -17,16 +17,16 @@ class Wall:
         for row in range(self.rows):
             for col in range(self.cols):
                 pos_x = self.x + col * self.block_size
-                pos_y = self.y + row * self.block_size
+                pos_y = self.y + row * (self.block_size - 20)
                 protection = Protections(self.canvas, (pos_x, pos_y), self.img, self.hp)    #Crée une protection et l'ajoute à la liste
                 self.blocks.append(protection)
 
     def check_collision(self, projectile_coords):
         for protection in self.blocks:
-            if Protections.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
-                protection_coords = Protections.get_coords()
+            if protection.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
+                protection_coords = protection.get_coords()
                 if protection_coords and self._is_colliding(protection_coords, projectile_coords):
-                    Protections.loss_hp()
+                    protection.loss_hp()
                     return True 
         return False
     

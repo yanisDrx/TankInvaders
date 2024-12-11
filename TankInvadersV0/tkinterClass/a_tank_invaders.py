@@ -1,3 +1,4 @@
+import random
 from tkinter import *
 from tkinterClass.base_canvas import *
 from tkinterClass.buttons import *
@@ -40,13 +41,11 @@ class TankInvaders(Tk):
         self.pressed_keys = {
             "Left": False,
             "Right": False,
-            "Space": False
+            "space": False
             }
         
         #liste d'ennemis (quand len = 0 -> fin du jeu)
         self.ennemies = []
-        
-        self.ennemies_coords = []
      
         self.score = 10 # ça va pas la
 
@@ -70,7 +69,18 @@ class TankInvaders(Tk):
             self.rectangle = self.game_canvas.create_rectangle(0, 680, 800, 800, outline="#494949" ,fill="#494949", width=2)
             
             # ajoute un premier soldat
-            self.soldat = Soldat(self.game_canvas, pos=[400,625], img="TankInvadersV0/Images/soldier_player.png", hp=2, size=0, cooldown=500)
+            self.soldat = Soldat(self.game_canvas, pos=[400,625], img="TankInvadersV0/Images/soldier_player.png", hp=2, cooldown = 1)
+            
+            # ajoute 3 murs
+            self.murs = []
+            
+            self.posx_mur1 = random.choice([])
+            
+            self.nb_murs = random.choice([500,750])
+            print(self.nb_murs)
+            for i in range (0,self.nb_murs,250):
+                self.murs.append(Wall(self.game_canvas, (i+100), 500, img="TankInvadersV0/Images/wall.png", hp=12))
+                print(i)
             
             # ajoute les textes fixes de scores et vies
             Title_Text(self, canvas = self.game_canvas,text="Vies : ",font = 15, colour="white", xaxis=670, yaxis=740)
@@ -93,20 +103,13 @@ class TankInvaders(Tk):
         # Position initiale (en dehors de l'écran)
         self.start_x = 759
         self.start_y = 25
-        self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, size=(50, 50))
+        self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3)
         
-        
-
         self.ennemi.animate()
-        
-        # positionne le tank dans la liste d'ennemis vivants
-        self.ennemies.append(self.ennemi)
-        
-        # positionne les coordonnées en temps réel des ennemis dans une autre liste
-        self.ennemies_coords.append(self.ennemi.pos)
-        
-        # mise à jour du canvas (règle un bug de Tcl *merci chatgpt*)
         self.game_canvas.update()
+        
+         # positionne le tank dans la liste d'ennemis vivants
+        self.ennemies.append(self.ennemi)
         
         self.soldat.hp -=1 # A MODIF EVIDEMMENT ON EST PAS CONS
         self.score +=1
@@ -120,6 +123,8 @@ class TankInvaders(Tk):
         #limite la boucle à 16 ennemis max
         if len(self.ennemies) < 16: 
             self.game_canvas.after(1000, self.add_ennemi)
+            print(len(self.ennemies))
+        
              
     def init_gameplay(self):
           
@@ -129,48 +134,37 @@ class TankInvaders(Tk):
         # Update des touches 
         self.update()
             
+            
     def keyBind(self):
         
         # sépare les touches pressées et relachées afin d'avoir un mouvement final du soldat plus fluide
         self.bind("<KeyPress>", self.on_key_press)
         self.bind("<KeyRelease>", self.on_key_release)  
-            
-    def keysFunctions(self):
+        
+
+    def checkAllCOlisions(self):
+        ## on fais les boucles sur toutes les entitées et verivfier les collsiiosn 
+        ## ezt on applique les collisisons  
+        pass
+    
+    
+    def update(self):
+        
+        # Déplacer le soldat horizontalement
         if self.pressed_keys["Left"] and not self.pressed_keys["Right"]:
             self.soldat.move(-10)
         if self.pressed_keys["Right"] and not self.pressed_keys["Left"]:
             self.soldat.move(+10)
-        if self.pressed_keys["Space"]:
-            self.soldat.shoot()
-
-    def moveALLEnnemies(self):
-        for ennemi in self.ennemies:    #Déplace les tanks horizontalement puis vers le bas en séquence
-            ennemi.move()   
-            
-            # pour être tout à fait honnête, cette fonction était utile car le premier mouvement
-            # défini par la fonction "animate" permettait de déplacer les tank qui apparaissaient
-            # hors du cadre une premiere fois jusqu'a la bordure gauche, puis cette fonction move
-            # s'occupait de la séquence de mouvement. Cependant, les conditions de la séquences ont
-            # fait que l'apparition des tank hors du cadre n'étaient plus possible, et la modification
-            # de ces méthodes fonctionnelles était trop laborieuse
-
-    def checkAllCollisions(self):
-        ## on fait les boucles sur toutes les entitées pour vérifier les collisions 
-        ## et on applique les collisions  
-        pass
-    def update(self):
+        if self.pressed_keys["space"]:
+            # self.soldat.shoot()
+            print(self.pressed_keys["space"])
         
-        #Appelles la fonction pour déplacer le soldat horizontalement et tirer avec espace
-        self.keysFunctions()
-        # # Déplacer les tanks horizontalement
-        self.moveALLEnnemies()
-
-        self.checkAllCollisions()
-            
-        # print(self.ennemies_coords)
         
-        # affiche les coordonnées de chaque ennemi dans la liste     
-        print(self.ennemies_coords)
+        # self.checkAllCOlisions()
+
+        # déplace les tanks horizontalement puis vers le bas en séquence
+        for ennemi in self.ennemies:
+            ennemi.move() 
         
         # Relance la boucle après 16ms (~60 FPS)
         self.after(16, self.update)

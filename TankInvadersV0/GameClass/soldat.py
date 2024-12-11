@@ -4,11 +4,13 @@ from time import time
 
 class Soldat(Entities):
 
-    def __init__(self, canvas, pos, img, hp, size, cooldown):
-        super().__init__(canvas, pos, img, hp, size)
+    def __init__(self, canvas, pos, img, hp, cooldown):
+        super().__init__(canvas, pos, img, hp)
         self.last_shot_time = 0 #Temps du dernier tir
         self.bullets = []   #Liste des projectiles présents
         self.cooldown = cooldown  #Temps minimum entre deux tirs (en ms)
+        self.dx = 30
+        self.show()
 
     def move(self, dx): 
         self.pos[0] += dx 
@@ -23,8 +25,8 @@ class Soldat(Entities):
             self.canvas.move(self.image_id, dx, 0)
             
     def shoot(self):
-        # current_time = int(self.canvas.winfo_toplevel().tk.call('after', 'info').split()[0]) if self.canvas else 0
-        current_time = int(time.time() * 1000)
+        current_time = int(self.canvas.winfo_toplevel().tk.call('after', 'info').split()[0]) if self.canvas else 0
+        # current_time = int(time.time() * 1000)
         if current_time - self.last_shot_time < self.cooldown:  #Vérifie si le soldat est en capacité de tirer , si cette condition est vraie le soldat n'a pas le possibilité de tirer
             return  
 
