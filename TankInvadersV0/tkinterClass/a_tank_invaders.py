@@ -74,7 +74,7 @@ class TankInvaders(Tk):
             # ajoute 3 murs
             self.murs = []
             
-            self.posx_mur1 = random.choice([])
+            self.posx_mur1 = random.choice([10,10])
             
             self.nb_murs = random.choice([500,750])
             print(self.nb_murs)
@@ -156,7 +156,7 @@ class TankInvaders(Tk):
         if self.pressed_keys["Right"] and not self.pressed_keys["Left"]:
             self.soldat.move(+10)
         if self.pressed_keys["space"]:
-            # self.soldat.shoot()
+            self.soldat.shoot()
             print(self.pressed_keys["space"])
         
         

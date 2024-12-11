@@ -12,6 +12,7 @@ class Tank(Entities):
         self.step_y = 85
         
         
+        
     def move(self):
         
         canvas_width = self.canvas.winfo_width()

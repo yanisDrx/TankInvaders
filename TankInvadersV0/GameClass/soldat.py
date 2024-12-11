@@ -25,14 +25,15 @@ class Soldat(Entities):
             self.canvas.move(self.image_id, dx, 0)
             
     def shoot(self):
-        current_time = int(self.canvas.winfo_toplevel().tk.call('after', 'info').split()[0]) if self.canvas else 0
-        # current_time = int(time.time() * 1000)
-        if current_time - self.last_shot_time < self.cooldown:  #Vérifie si le soldat est en capacité de tirer , si cette condition est vraie le soldat n'a pas le possibilité de tirer
-            return  
+        # current_time = int(self.canvas.winfo_toplevel().tk.call('after', 'info').split()[0]) if self.canvas else 0
+        # # current_time = int(time.time() * 1000)
+        # if current_time - self.last_shot_time < self.cooldown:  #Vérifie si le soldat est en capacité de tirer , si cette condition est vraie le soldat n'a pas le possibilité de tirer
+        #     return  
 
-        self.last_shot_time = current_time  # Met à jour le dernier temps de tir
+        # self.last_shot_time = current_time  # Met à jour le dernier temps de tir
 
-        bullet_x = self.pos[0]  # Position x centrée sur le soldat
-        bullet_y = self.pos[1] - (self.size[1] // 2)  # Position y au-dessus du soldat
-        bullet = Projectile(canvas=self.canvas,pos=(bullet_x, bullet_y), img="TankInvadersV0/Images/soldier_player.png", size=(5, 10),speed=-5) #Création du projectile
-        self.bullets.append(bullet) #Ajoute le projectile à la liste des projectiles
+        self.bullet = Projectile(canvas=self.canvas,pos=(self.pos[0], self.pos[1]), img="TankInvadersV0/Images/soldier_player.png",speed=-5) #Création du projectile
+        self.bullets.append(self.bullet) #Ajoute le projectile à la liste des projectiles
+        
+        for bullets in self.bullets :
+            bullets.animate()
