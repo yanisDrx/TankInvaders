@@ -149,34 +149,30 @@ class TankInvaders(Tk):
             self.soldat.shoot()
 
     def moveALLEnnemies(self):
-        for ennemi in self.ennemies:
-            ennemi.move()
+        for ennemi in self.ennemies:    #Déplace les tanks horizontalement puis vers le bas en séquence
+            ennemi.move()   
+            
+            # pour être tout à fait honnête, cette fonction était utile car le premier mouvement
+            # défini par la fonction "animate" permettait de déplacer les tank qui apparaissaient
+            # hors du cadre une premiere fois jusqu'a la bordure gauche, puis cette fonction move
+            # s'occupait de la séquence de mouvement. Cependant, les conditions de la séquences ont
+            # fait que l'apparition des tank hors du cadre n'étaient plus possible, et la modification
+            # de ces méthodes fonctionnelles était trop laborieuse
 
-    def checkAllCOlisions(self):
+    def checkAllCollisions(self):
         ## on fais les boucles sur toutes les entitées et verivfier les collsiiosn 
         ## ezt on applique les collisisons  
         pass
     def update(self):
         
-        # Déplacer le soldat horizontalement
+        #Appelles la fonction pour déplacer le soldat horizontalement et tirer avec espace
         self.keysFunctions()
         # # Déplacer les tanks horizontalement
         self.moveALLEnnemies()
 
-        self.checkAllCOlisions()
+        self.checkAllCollisions()
             
         # print(self.ennemies_coords)
-
-            
-        # déplace les tanks horizontalement puis vers le bas en séquence
-        for ennemi in self.ennemies:
-            ennemi.move() 
-            """pour être tout à fait honnête, cette fonction était utile car le premier mouvement
-            défini par la fonction "animate" permettait de déplacer les tank qui apparaissaient
-            hors du cadre une premiere fois jusqu'a la bordure gauche, puis cette fonction move
-            s'occupait de la séquence de mouvement. Cependant, les conditions de la séquences ont
-            fait que l'apparition des tank hors du cadre n'étaient plus possible, et la modification
-            de ces méthodes fonctionnelles était trop laborieuse""" 
         
         # affiche les coordonnées de chaque ennemi dans la liste     
         print(self.ennemies_coords)
