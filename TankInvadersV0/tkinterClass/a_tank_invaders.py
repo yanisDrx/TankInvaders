@@ -98,27 +98,30 @@ class TankInvaders(Tk):
             self.score_txt = self.game_canvas.create_text(160, 740, text=self.score, font = ("Arial", 15), fill="white")
             
             # ajoute les tanks
-            self.add_ennemi()
-            
+            self.add_ennemies()
+            # self.add_medium_tank()                                   A MODIF !!!!!
             #initialisation de la partie
             self.init_gameplay()
                     
         else:
             print(self.is_playing)
     
-    def add_ennemi(self):
-        # Position initiale (en dehors de l'écran)
+    def add_ennemies(self):
         self.start_x = 759
         self.start_y = 25
-        self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3)
+        self.add_easy_tank()
         
+    
+    def add_easy_tank(self):
+        
+        self.easy_tank = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, canshoot = False)
         
         self.game_canvas.update()
 
-        self.ennemi.animate()
+        self.easy_tank.animate()
         
          # positionne le tank dans la liste d'ennemis vivants
-        self.ennemies.append(self.ennemi)
+        self.ennemies.append(self.easy_tank)
         
         self.soldat.hp -=1 # A MODIF EVIDEMMENT ON EST PAS CONS
         self.score +=1
@@ -131,9 +134,25 @@ class TankInvaders(Tk):
         
         #limite la boucle à 16 ennemis max
         if len(self.ennemies) < 8: 
-            self.game_canvas.after(1000, self.add_ennemi)
-            print(len(self.ennemies))
+            self.game_canvas.after(1000, self.add_easy_tank)
+            print(len(self.ennemies))    
+
         
+    def add_medium_tank(self):
+        
+        self.medium_tank = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, canshoot = True)
+        
+        self.game_canvas.update()
+
+        self.medium_tank.animate()
+        
+         # positionne le tank dans la liste d'ennemis vivants
+        self.ennemies.append(self.medium_tank)
+        
+        #limite la boucle à 16 ennemis max
+        if 8 < len(self.ennemies) < 16: 
+            self.game_canvas.after(1000, self.add_medium_tank)
+            print(len(self.ennemies))   
              
     def init_gameplay(self):
           
@@ -159,7 +178,8 @@ class TankInvaders(Tk):
 
     def tank_shooting(self):
         random_shooter = random.randint(0,len(self.ennemies)-1)
-        self.ennemies[random_shooter].shoot()
+        if self.ennemies[random_shooter].canshoot == True :
+            self.ennemies[random_shooter].shoot()
     
     def checkAllCOlisions(self):
         ## on fais les boucles sur toutes les entitées et verivfier les collsiiosn 

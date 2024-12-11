@@ -6,9 +6,10 @@ from gameClass.projectile import Projectile
 
 class Tank(Entities):
     
-    def __init__(self, canvas, pos, img, hp):
+    def __init__(self, canvas, pos, img, hp, canshoot):
         super().__init__(canvas, pos, img, hp)
         
+        self.canshoot = canshoot
         self.direction = 1
         self.step_x = 2
         self.step_y = 85
