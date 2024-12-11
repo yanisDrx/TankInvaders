@@ -160,8 +160,8 @@ class TankInvaders(Tk):
             # de ces méthodes fonctionnelles était trop laborieuse
 
     def checkAllCollisions(self):
-        ## on fais les boucles sur toutes les entitées et verivfier les collsiiosn 
-        ## ezt on applique les collisisons  
+        ## on fait les boucles sur toutes les entitées pour vérifier les collisions 
+        ## et on applique les collisions  
         pass
     def update(self):
         
