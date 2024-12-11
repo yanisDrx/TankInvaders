@@ -95,9 +95,6 @@ class TankInvaders(Tk):
         self.start_y = 25
         self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, size=(50, 50))
         
-        self.ennemies.append(self.ennemi)
-        
-        self.ennemies_coords.append(self.ennemi.pos)
         
         self.game_canvas.update()
 

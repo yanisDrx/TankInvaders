@@ -23,10 +23,10 @@ class Wall:
 
     def check_collision(self, projectile_coords):
         for protection in self.blocks:
-            if Protections.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
-                protection_coords = Protections.get_coords()
+            if protection.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
+                protection_coords = protection.get_coords()
                 if protection_coords and self._is_colliding(protection_coords, projectile_coords):
-                    Protections.loss_hp()
+                    protection.loss_hp()
                     return True 
         return False
     
