@@ -105,8 +105,11 @@ class TankInvaders(Tk):
         self.start_y = 25
         self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3)
         
+        
         self.ennemi.animate()
         self.game_canvas.update()
+
+        self.ennemi.animate()
         
          # positionne le tank dans la liste d'ennemis vivants
         self.ennemies.append(self.ennemi)

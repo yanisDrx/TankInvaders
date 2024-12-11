@@ -25,4 +25,4 @@ class Protections (Entities):
         if bbox is not None:
             return bbox
         else:
-            return None #Si jamais l'objet n'existe pas
+            return None #Si jamais l'objet n'existe pas 
