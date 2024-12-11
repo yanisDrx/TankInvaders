@@ -23,10 +23,10 @@ class Wall:
 
     def check_collision(self, projectile_coords):
         for protection in self.blocks:
-            if protection.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
-                protection_coords = protection.get_coords()
+            if Protections.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
+                protection_coords = Protections.get_coords()
                 if protection_coords and self._is_colliding(protection_coords, projectile_coords):
-                    protection.loss_hp()
+                    Protections.loss_hp()
                     return True 
         return False
     
@@ -41,3 +41,7 @@ class Wall:
 
     def is_destroyed(self): #Vérifie si toutes les protections du mur sont détruites (Utile si l'on veut reconstruire les murs à la fin d'un niveau)
         return len(self.blocks) == 0
+    
+    def rebuild(self):
+        self.blocks = []  # Réinitialise la liste des protections
+        self.create()
