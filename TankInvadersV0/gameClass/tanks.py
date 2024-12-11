@@ -4,8 +4,8 @@ from gameClass.entity import Entities
 
 class Tank(Entities):
     
-    def __init__(self, canvas, pos, img, hp, size):
-        super().__init__(canvas, pos, img, hp, size)
+    def __init__(self, canvas, pos, img, hp):
+        super().__init__(canvas, pos, img, hp)
         
         self.direction = 1
         self.step_x = 2
@@ -13,7 +13,7 @@ class Tank(Entities):
         
         
     def move(self):
-        print(self.pos)
+        
         canvas_width = self.canvas.winfo_width()
 
         if self.pos[0] >= canvas_width - 40:
