@@ -3,7 +3,8 @@ from gameClass.entity import Entities
 
 class Protections (Entities):
     def __init__(self, canvas, pos, img, hp):
-        super().__init__(canvas, pos, img, hp=hp, size=None, fproj=None)
+        super().__init__(canvas, pos, img, hp=hp, size=None)
+        self.protection = self.image_id
         self.protection = self.canvas.create_image(self.pos[0], self.pos[1], image=self.img)
 
     
