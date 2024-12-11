@@ -155,10 +155,17 @@ class TankInvaders(Tk):
     def spaceBar(self, event=None):
         self.soldat.shoot()   
 
-    def checkAllCollisions(self):
-        # on fait les boucles sur toutes les entitées et on vérifie les collisions 
-        # on applique les collisisons  
-        pass
+    def are_overlapping(obj1, obj2):
+        x1, y1, x2, y2 = obj1.canvas.bbox(obj1.id)
+        x1_, y1_, x2_, y2_ = obj2.canvas.bbox(obj2.id)
+        return not (x2 < x1_ or x2_ < x1 or y2 < y1_ or y2_ < y1)
+
+
+    # def checkAllCollisions(self):
+    #     # on fait les boucles sur toutes les entitées et on vérifie les collisions 
+    #     # on applique les collisisons  
+    #     pass
+
     
     
     def update(self):
@@ -173,8 +180,6 @@ class TankInvaders(Tk):
         #     print(self.pressed_keys["space"])
         
         
-        # self.checkAllCOlisions()
-
         # déplace les tanks horizontalement puis vers le bas en séquence
         for ennemi in self.ennemies:
             ennemi.move() 
