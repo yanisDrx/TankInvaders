@@ -106,7 +106,6 @@ class TankInvaders(Tk):
         self.ennemi = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3)
         
         
-        self.ennemi.animate()
         self.game_canvas.update()
 
         self.ennemi.animate()
@@ -145,9 +144,9 @@ class TankInvaders(Tk):
         self.bind("<KeyRelease>", self.on_key_release)  
         
 
-    def checkAllCOlisions(self):
-        ## on fais les boucles sur toutes les entitées et verivfier les collsiiosn 
-        ## ezt on applique les collisisons  
+    def checkAllCollisions(self):
+        # on fait les boucles sur toutes les entitées et on vérifie les collisions 
+        # on applique les collisisons  
         pass
     
     
