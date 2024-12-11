@@ -9,6 +9,7 @@ class Projectile (Entities):
         self.direction = direction
         self.step_y = 10
         self.is_active = True
+        self.bullets = []
         
         # self.tir = self.canvas.create_image(self.pos[0], self.pos[1], image = img)
         # self.bounding_box = self.get_coords()
@@ -16,7 +17,7 @@ class Projectile (Entities):
     def move(self):
         canvas_height = self.canvas.winfo_height()
 
-        if self.pos[1] > 680  or self.pos[1] < canvas_height-700:
+        if self.pos[1] > 680  or self.pos[1] < 0:
             self.canvas.delete(self.image_id)
             self.is_active = False
             return

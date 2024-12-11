@@ -153,7 +153,9 @@ class TankInvaders(Tk):
      
      
     def spaceBar(self, event=None):
-        self.soldat.shoot()   
+        self.soldat.shoot()  
+        # for ennemies in self.ennemies :
+        #     ennemies.shoot() 
 
     def are_overlapping(obj1, obj2):
         x1, y1, x2, y2 = obj1.canvas.bbox(obj1.id)
@@ -166,6 +168,12 @@ class TankInvaders(Tk):
     #     # on applique les collisisons  
     #     pass
 
+    def tank_shooting(self):
+        random_shooter = random.randint(0,len(self.ennemies)-1)
+        self.ennemies[random_shooter].shoot()
+    
+
+
     
     
     def update(self):
@@ -175,14 +183,15 @@ class TankInvaders(Tk):
             self.soldat.move(-10)
         if self.pressed_keys["Right"] and not self.pressed_keys["Left"]:
             self.soldat.move(+10)
-        # if self.pressed_keys["space"]:
-        #     self.soldat.shoot()
-        #     print(self.pressed_keys["space"])
-        
-        
+
         # déplace les tanks horizontalement puis vers le bas en séquence
         for ennemi in self.ennemies:
             ennemi.move() 
+        
+        #fais tirer un tank a un temps random  
+        random_time = random.randint(0,50)
+        if random_time == 40:
+            self.tank_shooting()
         
         # Relance la boucle après 16ms (~60 FPS)
         self.after(16, self.update)

@@ -1,5 +1,7 @@
 from tkinter import *
 from gameClass.entity import Entities
+from gameClass.projectile import Projectile
+
 
 
 class Tank(Entities):
@@ -10,7 +12,7 @@ class Tank(Entities):
         self.direction = 1
         self.step_x = 2
         self.step_y = 85
-        
+        self.bullets = []
         
         
     def move(self):
@@ -32,3 +34,11 @@ class Tank(Entities):
         self.show()
         self.move()
         self.canvas.after(50, self.animate)
+        
+    def shoot(self):
+
+        self.bullet = Projectile(canvas=self.canvas,pos=(self.pos[0], self.pos[1]), img="TankInvadersV0/Images/bullet_tank.png",speed=-5, direction=1) #Création du projectile
+        self.bullets.append(self.bullet) #Ajoute le projectile à la liste des projectiles
+        
+        for bullets in self.bullets :
+            bullets.animate()

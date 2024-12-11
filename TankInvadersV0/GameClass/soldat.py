@@ -6,7 +6,7 @@ class Soldat(Entities):
     def __init__(self, canvas, pos, img, hp, cooldown):
         super().__init__(canvas, pos, img, hp)
         self.last_shot_time = 0 #Temps du dernier tir
-        self.bullets = []   #Liste des projectiles présents
+        self.bullets = []
         self.cooldown = cooldown  #Temps minimum entre deux tirs (en ms)
         self.dx = 30
         self.show()
@@ -25,7 +25,7 @@ class Soldat(Entities):
             
     def shoot(self):
 
-        self.bullet = Projectile(canvas=self.canvas,pos=(self.pos[0], self.pos[1]), img="TankInvadersV0/Images/soldier_player.png",speed=-5, direction=-1) #Création du projectile
+        self.bullet = Projectile(canvas=self.canvas,pos=(self.pos[0], self.pos[1]), img="TankInvadersV0/Images/bullet_soldier.png",speed=-5, direction=-1) #Création du projectile
         self.bullets.append(self.bullet) #Ajoute le projectile à la liste des projectiles
         
         for bullets in self.bullets :
