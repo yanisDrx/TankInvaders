@@ -1,3 +1,9 @@
+"""Classe Protections
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : Domicile (Lyon)
+Date : 7 Décembre 2024
+Codé en : Python sur VS code"""
+
 from gameClass.entity import Entities
 
 class Protections (Entities):

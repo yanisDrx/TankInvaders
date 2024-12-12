@@ -1,3 +1,10 @@
+"""Fichier Principal du jeu 
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : CPE Lyon / Domicile (Lyon)
+Date : Du 18 Novembre au 12 décembre 2024
+Codé en : Python sur VS code"""
+
+
 import random
 from tkinter import *
 from tkinterClass.base_canvas import *
@@ -182,7 +189,7 @@ class TankInvaders(Tk):
         if self.ennemies[random_shooter].canshoot == True :
             self.ennemies[random_shooter].shoot()
     
-    
+
     def check_all_collisions(self):
         # Vérification des collisions des projectiles du soldat avec les tanks ennemis
         for bullet in self.soldat.bullets[:]:  # Utilisez une copie pour éviter les conflits
@@ -195,10 +202,26 @@ class TankInvaders(Tk):
             for bullet in enemy.bullets[:]:
                 if self.check_collision(bullet, self.soldat):
                     self.handle_collision(bullet, self.soldat)
+            
+            # Collision entre les tanks et le soldat
+            if self.check_collision(enemy, self.soldat):
+                self.handle_collision(enemy, self.soldat)
+            
+            # Collision entre les tanks et les protections (murs)
+            for wall in self.murs:
+                if wall.check_collision(enemy.get_coords()):
+                    self.handle_collision_with_protection(enemy, wall)
+            
+            # Collision entre les projectiles des tanks et les protections
+            for bullet in enemy.bullets:
+                for wall in self.murs:
+                    if wall.check_collision(bullet.get_coords()):
+                        self.handle_collision_with_protection(bullet, wall)
 
 
     def handle_collision(self, bullet, target):
         if isinstance(target, Tank):
+            # Si un tank est touché par un projectile
             target.hp -= 1
             bullet.to_delete = True  # Marquer le projectile pour suppression
             if target.hp <= 0:
@@ -206,6 +229,7 @@ class TankInvaders(Tk):
             self.update_score()  # Met à jour le score
 
         elif isinstance(target, Soldat):
+            # Si le soldat est touché par un projectile
             target.hp -= 1
             bullet.to_delete = True
             self.update_vies()  # Met à jour les vies du joueur

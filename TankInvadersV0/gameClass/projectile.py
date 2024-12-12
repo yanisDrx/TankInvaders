@@ -1,3 +1,9 @@
+"""Classe Projectile
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : CPE Lyon
+Date : 7 Décembre 2024
+Codé en : Python sur VS code"""
+
 from tkinter import *
 from gameClass.entity import Entities
 
@@ -39,7 +45,7 @@ class Projectile (Entities):
         return not (x2 < tx1 or tx2 < x1 or y2 < ty1 or ty2 < y1)
     
     
-    def get_coords(self):
+    def get_coords(self):   #Fonction qui permet de récupérer les coordonnées du l'objet
         # if self.tir is None:
         #     return None
         return self.canvas.bbox(self.image_id)
@@ -54,7 +60,7 @@ class Projectile (Entities):
             self.canvas.destroy(self.tir)  #Permet la suppression du projectile 
 
 
-    def delete(self):
+    def delete(self):   #Fonction qui permet de supprimer le tir 
         if hasattr(self, 'tir') and self.tir is not None:
             self.tir.destroy()  # ou toute autre méthode de suppression
         else:

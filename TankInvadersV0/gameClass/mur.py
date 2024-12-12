@@ -1,3 +1,10 @@
+"""Classe Mur
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : Domicile (Lyon)
+Date : 7 Décembre 2024
+Codé en : Python sur VS code"""
+
+
 from gameClass.protections import Protections
 
 class Wall:
@@ -22,13 +29,6 @@ class Wall:
                 self.blocks.append(protection)
 
 
-    
-    #Non présence de self car utilisation d'une méthode statique (pratique pour les collisions)
-    def _is_colliding(coords1, coords2):    #Permet de vérifie si deux rectangles se chevauchent
-        x1, y1, x2, y2 = coords1
-        px1, py1, px2, py2 = coords2
-        return not (x2 < px1 or px2 < x1 or y2 < py1 or py2 < y1)
-    
     def remove_destroyed_protections(self): #Retire les protections qui sont détruites de la liste self.blocks
         self.blocks = [p for p in self.blocks if p.hp > 0]
 

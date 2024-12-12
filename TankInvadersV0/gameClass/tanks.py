@@ -1,3 +1,10 @@
+"""Class Tanks
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : CPE Lyon
+Date : 25 Novembre 2024
+Codé en : Python sur VS code"""
+
+
 from tkinter import *
 from gameClass.entity import Entities
 from gameClass.projectile import Projectile
