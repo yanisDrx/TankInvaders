@@ -43,7 +43,6 @@ class Tank(Entities):
     def animate(self):
         
         self.move()
-        print(f"After animate: {self.pos}")
         self.canvas.after(50, self.animate)
         
     def shoot(self):
@@ -53,3 +52,4 @@ class Tank(Entities):
         
         for bullets in self.bullets :
             bullets.animate()
+            

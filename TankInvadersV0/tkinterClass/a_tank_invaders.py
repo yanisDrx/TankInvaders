@@ -9,7 +9,7 @@ from gameClass.entity import *
 from gameClass.protections import *
 from gameClass.mur import *
 from gameClass.collision_manager import *
-
+ 
 
 class TankInvaders(Tk):
     def __init__(self):
@@ -119,7 +119,7 @@ class TankInvaders(Tk):
         self.start_y = 25
         if self.easy_tank_count < 8:
             # Ajouter un easy_tank
-            self.easy_tank = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, canshoot=False)
+            self.easy_tank = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=1, canshoot=False)
             self.ennemies.append(self.easy_tank)
             self.easy_tank.show()
             
@@ -127,9 +127,8 @@ class TankInvaders(Tk):
             print(f"Easy Tanks: {self.easy_tank_count}")
             
             self.easy_tank.animate()
+
             # mise à jour des vies et score pour démo (à ajuster)
-            self.soldat.hp -= 1  # À MODIFIER ÉVIDEMMENT
-            self.score += 1
             self.update_vies()
             self.update_score()
             
@@ -140,7 +139,7 @@ class TankInvaders(Tk):
                 self.game_canvas.after(1000, self.add_medium_tank)
 
         
-    def add_medium_tank(self):
+    def add_medium_tank(self):  
         self.start_x = 759
         self.start_y = 21
         if self.medium_tank_count < 9:
@@ -187,42 +186,109 @@ class TankInvaders(Tk):
         if self.ennemies[random_shooter].canshoot == True :
             self.ennemies[random_shooter].shoot()
     
-    def checkAllCOlisions(self):
-        ## on fais les boucles sur toutes les entitées et verivfier les collsiiosn 
-        ## ezt on applique les collisisons  
-        pass
+    
+    def check_all_collisions(self):
+        for bullet in self.soldat.bullets:
+            # Vérifier les collisions des projectiles du joueur avec les ennemis
+            for enemy in self.ennemies:
+                if self.check_collision(bullet, enemy):
+                    # Gérer la collision : réduire les points de vie de l'ennemi et supprimer la balle
+                    self.handle_collision(bullet, enemy)
+                    
+            # Vérifier les collisions des projectiles du joueur avec les protections (murs)
+            for wall in self.murs:
+                if wall.check_collision(bullet.get_coords()):
+                    # Gérer la collision avec le mur (diminuer la vie du mur et supprimer la balle)
+                    bullet.delete()
+
+        # Vérifier les collisions des projectiles des ennemis avec le soldat
+        for enemy in self.ennemies:
+            for bullet in enemy.bullets:
+                if self.check_collision(bullet, self.soldat):
+                    # Gérer la collision avec le soldat (réduire ses points de vie)
+                    self.handle_collision(bullet, self.soldat)
+
+
+    def handle_collision(self, bullet, target):
+        if isinstance(target, Tank):
+            target.hp -= 1
+            if target.hp <= 0:
+                target.to_delete = True  # Marquer pour suppression, pas tout de suite
+            bullet.to_delete = True
+            self.update_score()  # Met à jour le score si un ennemi est détruit
+
+        elif isinstance(target, Soldat):
+            target.hp -= 1
+            if target.hp <= 0:
+                target.to_delete = True  # Marquer pour suppression, pas tout de suite
+            bullet.to_delete = True
+            self.update_vies()  # Met à jour les vies du joueur
+    
+    
+    def check_collision(self, bullet, target):
+        # Vérifie si les coordonnées du projectile et de l'entité se chevauchent
+        bullet_bbox = bullet.get_coords()
+        target_bbox = target.get_coords()
+        
+        if bullet_bbox and target_bbox:
+            # Si les deux objets existent, vérifier s'ils se chevauchent
+            x1, y1, x2, y2 = bullet_bbox
+            tx1, ty1, tx2, ty2 = target_bbox
+            return not (x2 < tx1 or tx2 < x1 or y2 < ty1 or ty2 < y1)
+        return False
     
     
     def update(self):
-        
+        print("Mise à jour en cours...")
         # Déplacer le soldat horizontalement
         if self.pressed_keys["Left"] and not self.pressed_keys["Right"]:
             self.soldat.move(-10)
         if self.pressed_keys["Right"] and not self.pressed_keys["Left"]:
             self.soldat.move(+10)
         
+        print("Déplacement effectué")
         # pas encore utile
         # self.checkAllCOlisions()
 
         # déplace les tanks horizontalement puis vers le bas en séquence
         for ennemi in self.ennemies:
             ennemi.move() 
+          
+        print(f"Nombre d'ennemis : {len(self.ennemies)}")
+        
+        # Vérifier les collisions entre les projectiles et les entités
+        self.check_all_collisions()
+        
+        # Supprimer les objets marqués pour suppression
+        self.remove_marked_objects()
+        
+        print("Objets supprimés")
         
         #fais tirer un tank a un temps random  
         random_time = random.randint(0,50)
         if random_time >= 45:
             self.tank_shooting()
         
-        # self.collisions = CollisionManager.handle_collisions(self.projectiles, self.protections)
-        
-        # for projectile in self.projectiles:
-        #     projectile.animate()
-
-        # for protection in self.protections:
-        #     protection.show()
         
         # Relance la boucle après 16ms (~60 FPS)
-        self.after(16, self.update)
+        self.after(33, self.update)
+
+    def remove_marked_objects(self):
+        # Crée une liste temporaire d'objets à supprimer
+        to_remove = []
+
+        # Ajoute les objets marqués pour suppression à la liste
+        for obj in self.ennemies + self.soldat.bullets:
+            if hasattr(obj, 'to_delete') and obj.to_delete:
+                to_remove.append(obj)
+
+        # Supprime les objets dans la liste après la boucle
+        for obj in to_remove:
+            obj.delete()  # Assurez-vous que la méthode delete est correctement définie
+            if isinstance(obj, Tank):
+                self.ennemies.remove(obj)
+            elif isinstance(obj, Projectile):
+                self.soldat.bullets.remove(obj)
 
 
     def update_vies(self):
@@ -251,19 +317,10 @@ class TankInvaders(Tk):
             
                  
     def checkAllCollisions(self):
-        # on fait les boucles sur toutes les entitées et on vérifie les collisions 
-        # on applique les collisisons  
         pass
+
 
     def tank_shooting(self):
         random_shooter = random.randint(0,len(self.ennemies)-1)
         if self.ennemies[random_shooter].canshoot == True :
             self.ennemies[random_shooter].shoot()
-    
-        self.projectiles = []  # Liste des projectiles actifs
-        self.protections = []  # Liste des protections
-
-        # Ajout d'entités (par exemple, au début du jeu)
-        # self.projectiles.append(Projectile(self.game_canvas, (100, 200), img="TankInvadersV0/Images/bullet_soldier.png", speed=5, direction=-1))
-        # self.protections.append(Protections(self.game_canvas, (200, 300), img="TankInvadersV0/Images/wall.png", hp=3))
-

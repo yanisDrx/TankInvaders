@@ -9,7 +9,7 @@ class Projectile (Entities):
         self.direction = direction
         self.step_y = 10
         self.is_active = True
-        # self.bullets = []
+        self.to_delete = False
         
 
     def move(self):
@@ -54,9 +54,11 @@ class Projectile (Entities):
             self.canvas.destroy(self.tir)  #Permet la suppression du projectile 
 
 
-    def delete(self):   #Permet de supprimer le projectile du canvas
-        if self.tir is not None:
-            self.canvas.delete(self.tir)
-            self.tir = None
+    def delete(self):
+        if hasattr(self, 'tir') and self.tir is not None:
+            self.tir.destroy()  # ou toute autre méthode de suppression
+        else:
+            print(f"Projectile {self} n'a pas de tir.")
+        # autres actions pour supprimer le projectile
 
 
