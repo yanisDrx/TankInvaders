@@ -1,3 +1,10 @@
+"""Fichier Principal du jeu 
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : CPE Lyon / Domicile (Lyon)
+Date : Du 18 Novembre au 12 décembre 2024
+Codé en : Python sur VS code"""
+
+
 import random
 from tkinter import *
 from tkinterClass.base_canvas import *
@@ -186,43 +193,132 @@ class TankInvaders(Tk):
         if self.ennemies[random_shooter].canshoot == True :
             self.ennemies[random_shooter].shoot()
     
-    
+    # AVANT MODIF §§§§§§§§§§§§§§§§§§§§§§§
+    # def check_all_collisions(self):
+    #     for bullet in self.soldat.bullets:
+    #         # Vérifier les collisions des projectiles du joueur avec les ennemis
+    #         for enemy in self.ennemies:
+    #             if self.check_collision(bullet, enemy):
+    #                 # Gérer la collision : réduire les points de vie de l'ennemi et supprimer la balle
+    #                 self.handle_collision(bullet, enemy)
+                    
+    #         # Vérifier les collisions des projectiles du joueur avec les protections (murs)
+    #         for wall in self.murs:
+    #             if wall.check_collision(bullet.get_coords()):
+    #                 # Gérer la collision avec le mur (diminuer la vie du mur et supprimer la balle)
+    #                 bullet.delete()
+
+    #     # Vérifier les collisions des projectiles des ennemis avec le soldat
+    #     for enemy in self.ennemies:
+    #         for bullet in enemy.bullets:
+    #             if self.check_collision(bullet, self.soldat):
+    #                 # Gérer la collision avec le soldat (réduire ses points de vie)
+    #                 self.handle_collision(bullet, self.soldat)
     def check_all_collisions(self):
+        # Vérification des collisions pour le soldat
         for bullet in self.soldat.bullets:
-            # Vérifier les collisions des projectiles du joueur avec les ennemis
+            # Collision entre les projectiles du soldat et les tanks
             for enemy in self.ennemies:
                 if self.check_collision(bullet, enemy):
-                    # Gérer la collision : réduire les points de vie de l'ennemi et supprimer la balle
                     self.handle_collision(bullet, enemy)
-                    
-            # Vérifier les collisions des projectiles du joueur avec les protections (murs)
+            
+            # Collision entre les projectiles du soldat et les protections (murs)
             for wall in self.murs:
                 if wall.check_collision(bullet.get_coords()):
-                    # Gérer la collision avec le mur (diminuer la vie du mur et supprimer la balle)
-                    bullet.delete()
+                    self.handle_collision_with_protection(bullet, wall)
 
-        # Vérifier les collisions des projectiles des ennemis avec le soldat
+        # Vérification des collisions pour les tanks
         for enemy in self.ennemies:
+            # Collision entre les projectiles des tanks et le soldat
             for bullet in enemy.bullets:
                 if self.check_collision(bullet, self.soldat):
-                    # Gérer la collision avec le soldat (réduire ses points de vie)
                     self.handle_collision(bullet, self.soldat)
+            
+            # Collision entre les tanks et le soldat
+            if self.check_collision(enemy, self.soldat):
+                self.handle_collision(enemy, self.soldat)
+            
+            # Collision entre les tanks et les protections (murs)
+            for wall in self.murs:
+                if wall.check_collision(enemy.get_coords()):
+                    self.handle_collision_with_protection(enemy, wall)
+            
+            # Collision entre les projectiles des tanks et les protections
+            for bullet in enemy.bullets:
+                for wall in self.murs:
+                    if wall.check_collision(bullet.get_coords()):
+                        self.handle_collision_with_protection(bullet, wall)
 
 
+
+    # def handle_collision(self, bullet, target):
+    #     if isinstance(target, Tank):
+    #         target.hp -= 1
+    #         if target.hp <= 0:
+    #             target.to_delete = True  # Marquer pour suppression, pas tout de suite
+    #         bullet.to_delete = True
+    #         self.update_score()  # Met à jour le score si un ennemi est détruit
+
+    #     elif isinstance(target, Soldat):
+    #         target.hp -= 1
+    #         if target.hp <= 0:
+    #             target.to_delete = True  # Marquer pour suppression, pas tout de suite
+    #         bullet.to_delete = True
+    #         self.update_vies()  # Met à jour les vies du joueur
+    
     def handle_collision(self, bullet, target):
         if isinstance(target, Tank):
+            # Si un tank est touché par un projectile
             target.hp -= 1
             if target.hp <= 0:
-                target.to_delete = True  # Marquer pour suppression, pas tout de suite
-            bullet.to_delete = True
-            self.update_score()  # Met à jour le score si un ennemi est détruit
+                target.to_delete = True  # Marquer le tank pour suppression
+            bullet.to_delete = True  # Marquer le projectile pour suppression
+            self.update_score()  # Met à jour le score si un tank est détruit
 
         elif isinstance(target, Soldat):
+            # Si le soldat est touché par un projectile
             target.hp -= 1
             if target.hp <= 0:
-                target.to_delete = True  # Marquer pour suppression, pas tout de suite
-            bullet.to_delete = True
+                target.to_delete = True  # Marquer le soldat pour suppression
+            bullet.to_delete = True  # Marquer le projectile pour suppression
             self.update_vies()  # Met à jour les vies du joueur
+            
+    def handle_collision_with_protection(self, entity, wall):
+        if isinstance(entity, Tank):
+            # Collision entre un tank et un mur
+            entity.hp -= 1
+            if entity.hp <= 0:
+                entity.to_delete = True  # Marquer le tank pour suppression
+            wall.hp -= 1
+            if wall.hp <= 0:
+                wall.to_delete = True  # Marquer le mur pour suppression
+
+        elif isinstance(entity, Projectile):
+            # Collision entre un projectile et un mur
+            wall.hp -= 1
+            if wall.hp <= 0:
+                wall.to_delete = True  # Marquer le mur pour suppression
+            entity.to_delete = True  # Marquer le projectile pour suppression
+    def remove_marked_objects(self):
+        to_remove = []
+
+        # Ajoute les objets marqués pour suppression à la liste
+        for obj in self.ennemies + self.soldat.bullets + self.murs:
+            if hasattr(obj, 'to_delete') and obj.to_delete:
+                to_remove.append(obj)
+
+        # Supprime les objets dans la liste après la boucle
+        for obj in to_remove:
+            obj.delete()  # Assurez-vous que la méthode delete est correctement définie
+            if isinstance(obj, Tank):
+                self.ennemies.remove(obj)
+            elif isinstance(obj, Wall):
+                self.murs.remove(obj)
+            elif isinstance(obj, Projectile):
+                self.soldat.bullets.remove(obj)
+
+       
+
     
     
     def check_collision(self, bullet, target):

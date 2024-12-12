@@ -1,3 +1,9 @@
+"""Classe Protections
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : Domicile (Lyon)
+Date : 7 Décembre 2024
+Codé en : Python sur VS code"""
+
 from gameClass.entity import Entities
 
 class Protections (Entities):
@@ -21,8 +27,9 @@ class Protections (Entities):
 
 
     def get_coords(self):
-        bbox = self.canvas.bbox(self.image_id)    #Récupère les coordonnées de l'objet, ici la protection
-        # if bbox is not None:
-        #     return bbox
-        # else:
-        #     return None #Si jamais l'objet n'existe pas 
+        # On vérifie si l'image existe avant de récupérer les coordonnées
+        if self.image_id is not None:
+            bbox = self.canvas.bbox(self.image_id)  # Récupère les coordonnées de l'objet, ici la protection
+            if bbox:
+                return bbox
+        return None  # Si l'objet n'existe plus, retourne None

@@ -1,3 +1,9 @@
+"""Classe Base_Canvas
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : CPE Lyon
+Date : 18 Novembre 2024
+Codé en : Python sur VS code"""
+
 from tkinter import *
 
 

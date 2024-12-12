@@ -1,3 +1,10 @@
+"""Classe Mur
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : Domicile (Lyon)
+Date : 7 Décembre 2024
+Codé en : Python sur VS code"""
+
+
 from gameClass.protections import Protections
 
 class Wall:
@@ -21,20 +28,38 @@ class Wall:
                 protection = Protections(self.canvas, (pos_x, pos_y), self.img, self.hp)    #Crée une protection et l'ajoute à la liste
                 self.blocks.append(protection)
 
-    def check_collision(self, projectile_coords):
+    def get_coords(self):
+            # Retourne les coordonnées de l'image sous forme de bbox (bounding box)
+            return [block.get_coords() for block in self.blocks]
+    
+    def check_collision(self, coords):
+        """Vérifie les collisions avec un projectile ou un tank"""
         for protection in self.blocks:
-            if protection.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
+            if protection.hp > 0:  # Vérifie si la protection est toujours en vie
                 protection_coords = protection.get_coords()
-                if protection_coords and self._is_colliding(protection_coords, projectile_coords):
-                    protection.loss_hp()
+                if protection_coords and self._is_colliding(protection_coords, coords):
+                    protection.loss_hp()  # Diminue les HP de la protection
                     return True 
         return False
-    
-    #Non présence de self car utilisation d'une méthode statique (pratique pour les collisions)
-    def _is_colliding(coords1, coords2):    #Permet de vérifie si deux rectangles se chevauchent
+
+    def _is_colliding(self, coords1, coords2):    # Vérifie si deux rectangles se chevauchent
         x1, y1, x2, y2 = coords1
         px1, py1, px2, py2 = coords2
         return not (x2 < px1 or px2 < x1 or y2 < py1 or py2 < y1)
+    # def check_collision(self, projectile_coords):
+    #     for protection in self.blocks:
+    #         if protection.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
+    #             protection_coords = protection.get_coords()
+    #             if protection_coords and self._is_colliding(protection_coords, projectile_coords):
+    #                 protection.loss_hp()
+    #                 return True 
+    #     return False
+    
+    # #Non présence de self car utilisation d'une méthode statique (pratique pour les collisions)
+    # def _is_colliding(coords1, coords2):    #Permet de vérifie si deux rectangles se chevauchent
+    #     x1, y1, x2, y2 = coords1
+    #     px1, py1, px2, py2 = coords2
+    #     return not (x2 < px1 or px2 < x1 or y2 < py1 or py2 < y1)
     
     def remove_destroyed_protections(self): #Retire les protections qui sont détruites de la liste self.blocks
         self.blocks = [p for p in self.blocks if p.hp > 0]

@@ -1,3 +1,10 @@
+"""Classe CollisionManager
+Par : Pirès-Portelada Yanis et Bovet Gauthier
+Lieu : Domicile (Lyon)
+Date : 10 décembre 2024
+Codé en : Python sur VS code"""
+
+
 from gameClass.entity import Entities
 from gameClass.projectile import Projectile
 from gameClass.protections import Protections
