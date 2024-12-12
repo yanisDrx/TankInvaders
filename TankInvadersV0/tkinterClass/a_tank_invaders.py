@@ -8,7 +8,8 @@ from gameClass.tanks import *
 from gameClass.entity import *
 from gameClass.protections import *
 from gameClass.mur import *
-from gameClass.collision_manager import CollisionManager
+from gameClass.collision_manager import *
+
 
 class TankInvaders(Tk):
     def __init__(self):
@@ -181,42 +182,27 @@ class TankInvaders(Tk):
         # for ennemies in self.ennemies :
         #     ennemies.shoot() 
 
-    
-
-    # def checkAllCollisions(self):
-    #     # on fait les boucles sur toutes les entitées et on vérifie les collisions 
-    #     # on applique les collisisons  
-    #     pass
-
     def tank_shooting(self):
         random_shooter = random.randint(0,len(self.ennemies)-1)
         if self.ennemies[random_shooter].canshoot == True :
             self.ennemies[random_shooter].shoot()
     
-    projectiles = []  # Liste des projectiles actifs
-    protections = []  # Liste des protections
-
-    # Ajout d'entités (par exemple, au début du jeu)
-    projectiles.append(Projectile(self.game_canvas, (100, 200), img="TankInvadersV0/Images/bullet_soldier.png", speed=5, direction=-1))
-    protections.append(Protections(self.game_canvas, (200, 300), img="TankInvadersV0/Images/wall.png", hp=3))
+    def checkAllCOlisions(self):
+        ## on fais les boucles sur toutes les entitées et verivfier les collsiiosn 
+        ## ezt on applique les collisisons  
+        pass
+    
     
     def update(self):
         
-
-        CollisionManager.handle_collisions(projectiles, protections)
-        
-        for projectile in projectiles:
-            projectile.animate()
-
-        for protection in protections:
-            protection.show()
-
-
         # Déplacer le soldat horizontalement
         if self.pressed_keys["Left"] and not self.pressed_keys["Right"]:
             self.soldat.move(-10)
         if self.pressed_keys["Right"] and not self.pressed_keys["Left"]:
             self.soldat.move(+10)
+        
+        # pas encore utile
+        # self.checkAllCOlisions()
 
         # déplace les tanks horizontalement puis vers le bas en séquence
         for ennemi in self.ennemies:
@@ -226,6 +212,14 @@ class TankInvaders(Tk):
         random_time = random.randint(0,50)
         if random_time >= 45:
             self.tank_shooting()
+        
+        # self.collisions = CollisionManager.handle_collisions(self.projectiles, self.protections)
+        
+        # for projectile in self.projectiles:
+        #     projectile.animate()
+
+        # for protection in self.protections:
+        #     protection.show()
         
         # Relance la boucle après 16ms (~60 FPS)
         self.after(16, self.update)
@@ -254,3 +248,22 @@ class TankInvaders(Tk):
         # pareil pour false - relachée
         if event.keysym in self.pressed_keys:
             self.pressed_keys[event.keysym] = False
+            
+                 
+    def checkAllCollisions(self):
+        # on fait les boucles sur toutes les entitées et on vérifie les collisions 
+        # on applique les collisisons  
+        pass
+
+    def tank_shooting(self):
+        random_shooter = random.randint(0,len(self.ennemies)-1)
+        if self.ennemies[random_shooter].canshoot == True :
+            self.ennemies[random_shooter].shoot()
+    
+        self.projectiles = []  # Liste des projectiles actifs
+        self.protections = []  # Liste des protections
+
+        # Ajout d'entités (par exemple, au début du jeu)
+        # self.projectiles.append(Projectile(self.game_canvas, (100, 200), img="TankInvadersV0/Images/bullet_soldier.png", speed=5, direction=-1))
+        # self.protections.append(Protections(self.game_canvas, (200, 300), img="TankInvadersV0/Images/wall.png", hp=3))
+

@@ -11,7 +11,7 @@ class Tank(Entities):
         
         self.canshoot = canshoot
         self.direction = 1
-        self.step_x = 1
+        self.step_x = 2
         self.step_y = 85
         self.bullets = []
         self.show()
