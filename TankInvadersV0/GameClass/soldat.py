@@ -5,9 +5,6 @@ class Soldat(Entities):
 
     def __init__(self, canvas, pos, img, hp, cooldown):
         super().__init__(canvas, pos, img, hp)
-        self.last_shot_time = 0 #Temps du dernier tir
-        self.bullets = []
-        self.cooldown = cooldown  #Temps minimum entre deux tirs (en ms)
         self.dx = 30
         self.show()
 
@@ -30,3 +27,7 @@ class Soldat(Entities):
         
         for bullets in self.bullets :
             bullets.animate()
+            
+    def checkdeath(self):
+        if self.hp <= 0:
+            self.canvas.delete()

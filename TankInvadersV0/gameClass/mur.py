@@ -21,14 +21,7 @@ class Wall:
                 protection = Protections(self.canvas, (pos_x, pos_y), self.img, self.hp)    #Crée une protection et l'ajoute à la liste
                 self.blocks.append(protection)
 
-    def check_collision(self, projectile_coords):
-        for protection in self.blocks:
-            if protection.hp > 0:  #Permet de prendre en compte seulement les protections encore en vie
-                protection_coords = protection.get_coords()
-                if protection_coords and self._is_colliding(protection_coords, projectile_coords):
-                    protection.loss_hp()
-                    return True 
-        return False
+
     
     #Non présence de self car utilisation d'une méthode statique (pratique pour les collisions)
     def _is_colliding(coords1, coords2):    #Permet de vérifie si deux rectangles se chevauchent

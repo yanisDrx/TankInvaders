@@ -13,13 +13,11 @@ class Tank(Entities):
         self.direction = 1
         self.step_x = 2
         self.step_y = 85
-        self.bullets = []
         self.show()
         print(f"Tank created at position: {self.pos}")
         
         
     def move(self):
-        
         canvas_width = self.canvas.winfo_width()
 
     # Vérifier s'il touche le bord droit
@@ -39,17 +37,24 @@ class Tank(Entities):
 
         # Met à jour la position sur le canvas
         self.canvas.coords(self.image_id, self.pos[0], self.pos[1])
+       
                     
-    def animate(self):
-        
+    def animate(self):  
         self.move()
         self.canvas.after(50, self.animate)
         
+        
     def shoot(self):
-
         self.bullet = Projectile(canvas=self.canvas,pos=(self.pos[0], self.pos[1]), img="TankInvadersV0/Images/bullet_tank.png",speed=-5, direction=1) #Création du projectile
         self.bullets.append(self.bullet) #Ajoute le projectile à la liste des projectiles
         
         for bullets in self.bullets :
             bullets.animate()
+          
             
+    def checkdeath(self, ennemies_list):
+        if self.hp <= 0:
+            print(f"{self} est détruit !")
+            self.canvas.delete(self.image_id)  # Supprime le tank du canvas
+            if self in ennemies_list:
+                ennemies_list.remove(self)
