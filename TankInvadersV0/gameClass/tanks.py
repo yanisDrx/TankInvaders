@@ -11,29 +11,39 @@ class Tank(Entities):
         
         self.canshoot = canshoot
         self.direction = 1
-        self.step_x = 2
+        self.step_x = 1
         self.step_y = 85
         self.bullets = []
+        self.show()
+        print(f"Tank created at position: {self.pos}")
         
         
     def move(self):
         
         canvas_width = self.canvas.winfo_width()
 
+    # Vérifier s'il touche le bord droit
         if self.pos[0] >= canvas_width - 40:
-            self.direction = -1
-            self.pos = (self.pos[0], self.pos[1] + self.step_y)
-        elif self.pos[0] <= 40:
-            self.direction = 1
-            self.pos = (self.pos[0], self.pos[1] + self.step_y)
+            if self.direction == 1:  # Si le tank va à droite
+                self.direction = -1  # Change la direction
+                self.pos = (self.pos[0], self.pos[1] + self.step_y)  # Descend de 85px
 
+        # Vérifier s'il touche le bord gauche
+        elif self.pos[0] <= 40:
+            if self.direction == -1:  # Si le tank va à gauche
+                self.direction = 1  # Change la direction
+                self.pos = (self.pos[0], self.pos[1] + self.step_y)  # Descend de 85px
+
+        # Déplace horizontalement en fonction de la direction
         self.pos = (self.pos[0] + self.direction * self.step_x, self.pos[1])
+
+        # Met à jour la position sur le canvas
         self.canvas.coords(self.image_id, self.pos[0], self.pos[1])
                     
     def animate(self):
         
-        self.show()
         self.move()
+        print(f"After animate: {self.pos}")
         self.canvas.after(50, self.animate)
         
     def shoot(self):

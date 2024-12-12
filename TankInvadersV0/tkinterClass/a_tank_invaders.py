@@ -97,6 +97,9 @@ class TankInvaders(Tk):
             self.vies_txt = self.game_canvas.create_text(710, 740, text=self.soldat.hp, font = ("Arial", 15), fill="white") 
             self.score_txt = self.game_canvas.create_text(160, 740, text=self.score, font = ("Arial", 15), fill="white")
             
+            self.easy_tank_count = 0
+            self.medium_tank_count = 0
+            
             # ajoute les tanks
             self.add_ennemies()
             # self.add_medium_tank()                                   A MODIF !!!!!
@@ -107,52 +110,54 @@ class TankInvaders(Tk):
             print(self.is_playing)
     
     def add_ennemies(self):
-        self.start_x = 759
-        self.start_y = 25
         self.add_easy_tank()
         
     
     def add_easy_tank(self):
-        
-        self.easy_tank = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, canshoot = False)
-        
-        self.game_canvas.update()
-
-        self.easy_tank.animate()
-        
-         # positionne le tank dans la liste d'ennemis vivants
-        self.ennemies.append(self.easy_tank)
-        
-        self.soldat.hp -=1 # A MODIF EVIDEMMENT ON EST PAS CONS
-        self.score +=1
-        
-        # mise à jour des vies
-        self.update_vies()
-        
-        # mise à jour du score
-        self.update_score()
-        
-        #limite la boucle à 16 ennemis max
-        if len(self.ennemies) < 8: 
-            self.game_canvas.after(1000, self.add_easy_tank)
-            print(len(self.ennemies))    
+        self.start_x = 759
+        self.start_y = 25
+        if self.easy_tank_count < 8:
+            # Ajouter un easy_tank
+            self.easy_tank = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, canshoot=False)
+            self.ennemies.append(self.easy_tank)
+            self.easy_tank.show()
+            
+            self.easy_tank_count += 1
+            print(f"Easy Tanks: {self.easy_tank_count}")
+            
+            self.easy_tank.animate()
+            # mise à jour des vies et score pour démo (à ajuster)
+            self.soldat.hp -= 1  # À MODIFIER ÉVIDEMMENT
+            self.score += 1
+            self.update_vies()
+            self.update_score()
+            
+            # Planifie le prochain tank ou passe aux medium_tanks
+            if self.easy_tank_count != 8:
+                self.game_canvas.after(1000, self.add_easy_tank)
+            else:
+                self.game_canvas.after(1000, self.add_medium_tank)
 
         
     def add_medium_tank(self):
-        
-        self.medium_tank = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/tank.png", hp=3, canshoot = True)
-        
-        self.game_canvas.update()
-
-        self.medium_tank.animate()
-        
-         # positionne le tank dans la liste d'ennemis vivants
-        self.ennemies.append(self.medium_tank)
-        
-        #limite la boucle à 16 ennemis max
-        if 8 < len(self.ennemies) < 16: 
-            self.game_canvas.after(1000, self.add_medium_tank)
-            print(len(self.ennemies))   
+        self.start_x = 759
+        self.start_y = 21
+        if self.medium_tank_count < 9:
+            # Ajouter un medium_tank
+            self.medium_tank = Tank(self.game_canvas, pos=(self.start_x, self.start_y), img="TankInvadersV0/Images/med_tank.png", hp=3, canshoot=True)
+            self.ennemies.append(self.medium_tank)
+            self.easy_tank.show()
+            
+            
+            self.medium_tank_count += 1
+            print(f"Medium Tanks: {self.medium_tank_count}")
+            
+            self.medium_tank.animate()
+            
+            # Planifie le prochain medium_tank
+            if self.medium_tank_count < 8:
+                self.game_canvas.after(1000, self.add_medium_tank)
+             
              
     def init_gameplay(self):
           
@@ -204,7 +209,7 @@ class TankInvaders(Tk):
         
         #fais tirer un tank a un temps random  
         random_time = random.randint(0,50)
-        if random_time == 40:
+        if random_time >= 45:
             self.tank_shooting()
         
         # Relance la boucle après 16ms (~60 FPS)
