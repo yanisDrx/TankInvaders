@@ -8,7 +8,7 @@ from gameClass.tanks import *
 from gameClass.entity import *
 from gameClass.protections import *
 from gameClass.mur import *
-
+from gameClass.collision_manager import CollisionManager
 
 class TankInvaders(Tk):
     def __init__(self):
@@ -157,11 +157,7 @@ class TankInvaders(Tk):
         # for ennemies in self.ennemies :
         #     ennemies.shoot() 
 
-    def are_overlapping(obj1, obj2):
-        x1, y1, x2, y2 = obj1.canvas.bbox(obj1.id)
-        x1_, y1_, x2_, y2_ = obj2.canvas.bbox(obj2.id)
-        return not (x2 < x1_ or x2_ < x1 or y2 < y1_ or y2_ < y1)
-
+    
 
     # def checkAllCollisions(self):
     #     # on fait les boucles sur toutes les entitées et on vérifie les collisions 
@@ -172,12 +168,25 @@ class TankInvaders(Tk):
         random_shooter = random.randint(0,len(self.ennemies)-1)
         self.ennemies[random_shooter].shoot()
     
+    projectiles = []  # Liste des projectiles actifs
+    protections = []  # Liste des protections
 
-
-    
+    # Ajout d'entités (par exemple, au début du jeu)
+    projectiles.append(Projectile(self.game_canvas, (100, 200), img="TankInvadersV0/Images/bullet_soldier.png", speed=5, direction=-1))
+    protections.append(Protections(self.game_canvas, (200, 300), img="TankInvadersV0/Images/wall.png", hp=3))
     
     def update(self):
         
+
+        CollisionManager.handle_collisions(projectiles, protections)
+        
+        for projectile in projectiles:
+            projectile.animate()
+
+        for protection in protections:
+            protection.show()
+
+
         # Déplacer le soldat horizontalement
         if self.pressed_keys["Left"] and not self.pressed_keys["Right"]:
             self.soldat.move(-10)

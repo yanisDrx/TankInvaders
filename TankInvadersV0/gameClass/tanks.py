@@ -33,6 +33,7 @@ class Tank(Entities):
         
         self.show()
         self.move()
+        
         self.canvas.after(50, self.animate)
         
     def shoot(self):
