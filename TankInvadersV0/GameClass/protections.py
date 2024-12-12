@@ -24,3 +24,11 @@ class Protections (Entities):
         if self.image_id is not None:   #Permet de vérifier si l'objet existe  
             self.canvas.delete(self.image_id)
             self.image_id = None  #Empêche une double suppresion
+
+    def get_coords(self):
+        # On vérifie si l'image existe avant de récupérer les coordonnées
+        if self.image_id is not None:
+            bbox = self.canvas.bbox(self.image_id)  # Récupère les coordonnées de l'objet, ici la protection
+        #     if bbox:
+        #         return bbox
+        # return None  # Si l'objet n'existe plus, retourne None

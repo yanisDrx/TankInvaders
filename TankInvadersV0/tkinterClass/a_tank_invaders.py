@@ -15,7 +15,6 @@ from gameClass.tanks import *
 from gameClass.entity import *
 from gameClass.protections import *
 from gameClass.mur import *
-from gameClass.collision_manager import *
  
 
 class TankInvaders(Tk):
@@ -77,7 +76,7 @@ class TankInvaders(Tk):
             self.rectangle = self.game_canvas.create_rectangle(0, 680, 800, 800, outline="#494949" ,fill="#494949", width=2)
             
             # ajoute un premier soldat
-            self.soldat = Soldat(self.game_canvas, pos=[400,625], img="TankInvadersV0/Images/soldier_player.png", hp=2, cooldown = 1)
+            self.soldat = Soldat(self.game_canvas, pos=[400,625], img="TankInvadersV0/Images/soldier_player.png", hp=3, cooldown = 1)
             
             # ajoute 3 murs
             self.murs = []
